@@ -1,7 +1,6 @@
 //main code for REMNANTS game
 
 //just dropped my code in from HW3 for now to get started, we will have to change file names and such
-
 var config = {
     type: Phaser.WEBGL,
     width: 800,
@@ -27,49 +26,28 @@ var controls;
 
 var game = new Phaser.Game(config);
 
+var content = ["You wake alone in a dark forest with no memory of your past…", "the stinging cold prompts you to quickly build a fire. Ahh the warmth… The wind quiets but the forest is still loud with noise. What is that rustling? There it is again. The RUSTLING. Louder now, it seems to be getting closer… and faster even. “Hello?” you yell. No answer… your fists tighten around the hatchet in your hands. Do you run? Or stand your ground?..."]
+
+var line = [];
+
+var wordIndex = 0;
+var lineIndex = 0;
+
+var wordDelay = 120;
+var lineDelay = 400;
+
+var text;
+
 function preload() {
     //this.load.image('tiles', 'assets/tilemaps/tiles/cybernoid.png');
     //this.load.tilemapTiledJSON('map', 'assets/tilemaps/maps/cybernoid.json');
-    this.load.image('tiles', 'assets/images/grass_biome.png');
+    /* this.load.image('tiles', 'assets/images/grass_biome.png');
     this.load.tilemapTiledJSON('map', 'assets/tilemaps/map1_1.json');
-    this.load.spritesheet('mantisplayer', 'assets/images/praying_mantis.png', { frameWidth: 128, frameHeight: 128 });
+    this.load.spritesheet('mantisplayer', 'assets/images/praying_mantis.png', { frameWidth: 128, frameHeight: 128 }); */
 }
 
 function create() {
-    this.map = this.add.tilemap('map');
-
-    //var tiles = map.addTilesetImage('cybernoid', 'tiles');
-    var tiles = this.map.addTilesetImage('grass_biome', 'tiles');
-
-    for (var i = 0; i < 10; i++) {
-        this.layer1 = this.map.createStaticLayer(i, tiles, 0, 0);
-    }
-
-    this.player = this.physics.add.sprite(100, 0, 'mantisplayer');
-
-    this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
-
-    var cursors = this.input.keyboard.createCursorKeys();
-
-    var controlConfig = {
-        camera: this.cameras.main,
-        left: cursors.left,
-        right: cursors.right,
-        up: cursors.up,
-        down: cursors.down,
-        speed: 0.5
-    };
-
-    controls = this.cameras.main.startFollow(this.player);
-
-    this.game.input.mouse.capture = true;
-
-    this.input.on('pointermove', function (pointer) {
-
-        this.moveToXY(this.player, pointer.x, pointer.y);
-
-    }, this);
-
+    var title = this.add.text(100, 200, 'Static Text Object', { fontFamily: 'Arial', fontSize: 64, color: '#00ff00' });
 }
 
 function moveToXY(gameObject, x, y, speed, maxTime) {
@@ -93,5 +71,5 @@ function moveToXY(gameObject, x, y, speed, maxTime) {
 }
 
 function update(time, delta) {
-    controls.update(delta);
+    
 }
