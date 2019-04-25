@@ -38,6 +38,9 @@ var lineDelay = 400;
 
 var text;
 
+var timerEvent;
+var testText = "This is a test string";
+
 function preload() {
     //this.load.image('tiles', 'assets/tilemaps/tiles/cybernoid.png');
     //this.load.tilemapTiledJSON('map', 'assets/tilemaps/maps/cybernoid.json');
@@ -48,6 +51,8 @@ function preload() {
 
 function create() {
     var title = this.add.text(100, 200, 'Static Text Object', { fontFamily: 'Arial', fontSize: 64, color: '#00ff00' });
+    timerEvent = this.time.addEvent({delay: wordDelay, callback: typeText, repeat: testText.length});
+    text = this.add.text(100, 400);
 }
 
 function moveToXY(gameObject, x, y, speed, maxTime) {
@@ -72,4 +77,9 @@ function moveToXY(gameObject, x, y, speed, maxTime) {
 
 function update(time, delta) {
     
+}
+
+function typeText(){
+    var currentText = testText.substring(0, testText.length - timerEvent.repeatCount);
+    text.setText(currentText);
 }
