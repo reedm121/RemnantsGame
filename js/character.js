@@ -1,5 +1,3 @@
-import Phaser from 'phaser';
-
 class Character extends Phaser.GameObjects.Container{
     constructor(scene, x, y, children, { charName, health, food }) {
         super(scene, x, y, children);
@@ -15,7 +13,7 @@ class Character extends Phaser.GameObjects.Container{
 
         scene.add.existing(this);
 
-        this.setSize(CST.PLAYER.WIDTH, CST.PLAYER.HEIGHT);
+        this.setSize(128, 128);
         scene.physics.add.existing(this, false);
         scene.physics.add.collider(this, scene.world);
         this.id = id;

@@ -1,5 +1,3 @@
-
-
 //main code for REMNANTS game
 
 //just dropped my code in from HW3 for now to get started, we will have to change file names and such
@@ -61,10 +59,22 @@ function create() {
     //Use containers to make buttons. Put bg image + text into a container, then put containers into one big menu container
     //var buttonBG = this.add.image(0, 0, 'button');
 
-    var testMenu = new Menu(100, 100, 3);
-    testMenu.setOption(0, "Option 1", () => {
-        testMenu.options[0].option = "Clicked";
+    var testMenu = new Menu(this);
+    testMenu.setOption(0, "Option 1", function() {
+        if(testMenu.options[0].option.text === "Clicked")
+            testMenu.options[0].option.setText("Option 1");
+        else
+            testMenu.options[0].option.setText("Clicked");
     });
+
+    testMenu.setOption(1, "Option 2", function() {
+        if(testMenu.options[1].option.text === "Clicked")
+            testMenu.options[1].option.setText("Option 2");
+        else
+            testMenu.options[1].option.setText("Clicked");
+    });
+
+    testMenu.createMenu(100, 100);
 
     /*var buttonText = this.add.text(0, 0, 'Option 1');
     var buttonText2 = this.add.text(0, 200, 'Option 2');
