@@ -1,5 +1,5 @@
 class Character extends Phaser.GameObjects.Container{
-    constructor(scene, x, y, children, { charName, health, food }) {
+    constructor(scene, x, y, children, { name, health, food }) {
         super(scene, x, y, children);
         const main = Object.assign(
           scene.add.sprite(0, -12, "atlas", "misa-front"),
@@ -7,7 +7,7 @@ class Character extends Phaser.GameObjects.Container{
         );
         this.add(main);
         
-        this.name = charName;
+        this.name = name;
         this.health = health;
         this.food = food;
 
@@ -16,8 +16,6 @@ class Character extends Phaser.GameObjects.Container{
         this.setSize(128, 128);
         scene.physics.add.existing(this, false);
         scene.physics.add.collider(this, scene.world);
-        this.id = id;
-        this.food = food;
       }
 
       static createAnimations(scene){
