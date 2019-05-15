@@ -11,10 +11,12 @@ var player;
 var cursors;
 var camera;
 
-var gameWidth = 1920;
-var gameHeight = 1080;
+var gameWidth = 4*128;
+var gameHeight = 4*128;
 
 var direction = 'right';
+
+var fadetime;
 
 class RemnantsScene extends Phaser.Scene{
 
@@ -25,6 +27,8 @@ preload(){
 
     //load tileset img
     this.load.image('remnants_Tileset', 'assets/maps/remnants_Tileset.png');
+    //load overlay image for night cycle
+    this.load.image('overlay','assets/images/blue_overlay.png');
 
     //tilemaps
     this.load.tilemapTiledJSON('map', 'assets/maps/RemnantsMap.json');
@@ -99,6 +103,10 @@ create(){
     camera.startFollow(player, true, 0.09, 0.09);
     camera.setZoom(4);
 
+    //add overlay
+    overlay = this.add.image(camera.x, camera.y, 'overlay');
+    overlay.alpha = 0.5;
+
 }
 
 update(){
@@ -125,6 +133,7 @@ update(){
         player.anims.play(direction, true);
     }
     //player.body.velocity.normalize();
+
 
 }
 }
