@@ -1,0 +1,84 @@
+{ "frames": {
+   "Character_Sprite1 0.aseprite": {
+    "frame": { "x": 0, "y": 0, "w": 18, "h": 24 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 7, "y": 5, "w": 18, "h": 24 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 150
+   },
+   "Character_Sprite1 1.aseprite": {
+    "frame": { "x": 18, "y": 0, "w": 18, "h": 24 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 7, "y": 5, "w": 18, "h": 24 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 150
+   },
+   "Character_Sprite1 2.aseprite": {
+    "frame": { "x": 36, "y": 0, "w": 18, "h": 23 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 7, "y": 6, "w": 18, "h": 23 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 150
+   },
+   "Character_Sprite1 3.aseprite": {
+    "frame": { "x": 54, "y": 0, "w": 18, "h": 24 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 7, "y": 5, "w": 18, "h": 24 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 150
+   },
+   "Character_Sprite1 4.aseprite": {
+    "frame": { "x": 72, "y": 0, "w": 18, "h": 24 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 7, "y": 5, "w": 18, "h": 24 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 150
+   },
+   "Character_Sprite1 5.aseprite": {
+    "frame": { "x": 90, "y": 0, "w": 18, "h": 24 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 7, "y": 5, "w": 18, "h": 24 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 150
+   },
+   "Character_Sprite1 6.aseprite": {
+    "frame": { "x": 108, "y": 0, "w": 18, "h": 23 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 6, "y": 6, "w": 18, "h": 23 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 150
+   },
+   "Character_Sprite1 7.aseprite": {
+    "frame": { "x": 126, "y": 0, "w": 18, "h": 24 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 6, "y": 5, "w": 18, "h": 24 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 150
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.2.9",
+  "image": "assets/sprites/Remnants_Character_sheet.png",
+  "format": "RGBA8888",
+  "size": { "w": 256, "h": 32 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "WalkRight", "from": 0, "to": 3, "direction": "forward" },
+   { "name": "WalkLeft", "from": 4, "to": 7, "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "character", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
