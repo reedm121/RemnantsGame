@@ -17,6 +17,8 @@ var gameHeight = 4*128;
 var direction = 'right';
 
 var fadetime;
+var clock;
+var day;
 
 class RemnantsScene extends Phaser.Scene{
 
@@ -49,12 +51,14 @@ create(){
     layer1.setCollisionByProperty({walkable: false});
     layer2.setCollisionByProperty({walkable: false});
 
+
     //player
     player = this.physics.add.sprite(500, 500, 'Steve');
     player.setInteractive();
 
     this.physics.add.collider(player, layer1);
     this.physics.add.collider(player, layer2);
+    player.setCollideWorldBounds(true);
 
     //create player animations
     this.anims.create({
@@ -107,6 +111,9 @@ create(){
     overlay = this.add.image(camera.x, camera.y, 'overlay');
     overlay.alpha = 0.5;
 
+    //delay 300000
+    clock = this.time.addEvent({delay: 1000, loop: true, callback: this.changeDay});
+    day = true;
 }
 
 update(){
@@ -135,7 +142,20 @@ update(){
     //player.body.velocity.normalize();
 
 
+    if(day)
+        camera.alpha = 1-clock.getProgress();
+    else{
+        camera.alpha = clock.getProgress();
+    }
+
+    
+
 }
+
+changeDay(){
+    day = !day;
+}
+
 }
 
 window.onload = function(){
