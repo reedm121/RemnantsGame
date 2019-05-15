@@ -14,6 +14,8 @@ var camera;
 var gameWidth = 1920;
 var gameHeight = 1080;
 
+var direction = 'right';
+
 class RemnantsScene extends Phaser.Scene{
 
 preload(){
@@ -40,6 +42,8 @@ create(){
     tiles = map.addTilesetImage('remnants_Tileset', 'remnants_Tileset');
     map.createDynamicLayer('Tile Layer 1', tiles, 0, 0);
     map.createDynamicLayer('Tile Layer 2', tiles, 0, 0);
+
+    map.setCollisionByProperty({walkable: false});
 
     //player
     player = this.physics.add.sprite(256, 256, 'Steve');
@@ -80,18 +84,42 @@ create(){
         down: Phaser.Input.Keyboard.KeyCodes.DOWN
     });
 
+    cursors = this.input.keyboard.createCursorKeys();
+
     camera = this.cameras.main;
-    camera.width = 128;
-    camera.height = 128;
-    camera.setBounds(player.x - 64, player.y - 64, camera.width, camera.height);
+    camera.width = 4*128;
+    camera.height = 4*128;
+    camera.setBounds(0, 0, 1024, 2048);
     camera.scrollX = 0; camera.scrollY = 0;
     camera.centerToSize();
-    camera.startFollow(player);
-
+    camera.startFollow(player, true, 0.09, 0.09);
+    camera.setZoom(4);
 
 }
 
 update(){
+
+    player.setVelocity(0);
+
+    if (cursors.left.isDown) {
+        player.setVelocityX(-40);
+        player.anims.play('left', true);
+        direction = 'left';
+    }
+    else if (cursors.right.isDown) {
+        player.setVelocityX(40);
+        player.anims.play('right', true);
+        direction = 'right';
+    }
+
+    if (cursors.up.isDown) {
+        player.setVelocityY(-35);
+        player.anims.play(direction, true);
+    }
+    else if (cursors.down.isDown) {
+        player.setVelocityY(35);
+        player.anims.play(direction, true);
+    }
 
 }
 }
