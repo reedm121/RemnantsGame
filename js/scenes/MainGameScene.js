@@ -9,4 +9,10 @@ export default class MainGameScene extends Phaser.Scene {
 
     }
 
+    create(){
+        
+    }
+
+    
+
 }
