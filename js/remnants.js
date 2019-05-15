@@ -32,7 +32,6 @@ preload(){
 };
 
 create(){
-
     //create tilemap object
     map = this.make.tilemap({key: 'map'});
     //map.createStaticLayer('Tile Layer 1', 'map');
@@ -40,13 +39,18 @@ create(){
 
     //create tileset
     tiles = map.addTilesetImage('remnants_Tileset', 'remnants_Tileset');
-    map.createDynamicLayer('Tile Layer 1', tiles, 0, 0);
-    map.createDynamicLayer('Tile Layer 2', tiles, 0, 0);
+    const layer1 = map.createDynamicLayer('Tile Layer 1', tiles, 0, 0);
+    const layer2 = map.createDynamicLayer('Tile Layer 2', tiles, 0, 0);
 
-    map.setCollisionByProperty({walkable: false});
+    layer1.setCollisionByProperty({walkable: false});
+    layer2.setCollisionByProperty({walkable: false});
 
     //player
-    player = this.physics.add.sprite(256, 256, 'Steve');
+    player = this.physics.add.sprite(500, 500, 'Steve');
+    player.setInteractive();
+
+    this.physics.add.collider(player, layer1);
+    this.physics.add.collider(player, layer2);
 
     //create player animations
     this.anims.create({
@@ -102,24 +106,25 @@ update(){
     player.setVelocity(0);
 
     if (cursors.left.isDown) {
-        player.setVelocityX(-40);
+        player.body.setVelocityX(-40);
         player.anims.play('left', true);
         direction = 'left';
     }
     else if (cursors.right.isDown) {
-        player.setVelocityX(40);
+        player.body.setVelocityX(40);
         player.anims.play('right', true);
         direction = 'right';
     }
 
     if (cursors.up.isDown) {
-        player.setVelocityY(-35);
+        player.body.setVelocityY(-35);
         player.anims.play(direction, true);
     }
     else if (cursors.down.isDown) {
-        player.setVelocityY(35);
+        player.body.setVelocityY(35);
         player.anims.play(direction, true);
     }
+    //player.body.velocity.normalize();
 
 }
 }
