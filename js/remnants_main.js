@@ -59,7 +59,7 @@ function create() {
     //Use containers to make buttons. Put bg image + text into a container, then put containers into one big menu container
     //var buttonBG = this.add.image(0, 0, 'button');
 
-    var testMenu = new Menu(this);
+    var testMenu = new Menu("Test Menu", this);
     testMenu.setOption(0, "Option 1", function() {
         if(testMenu.options[0].option.text === "Clicked")
             testMenu.options[0].option.setText("Option 1");

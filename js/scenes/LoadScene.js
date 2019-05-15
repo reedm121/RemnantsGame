@@ -1,8 +1,10 @@
-import Phaser from 'phaser';
+//import Phaser from "phaser";
+import CST from "../CST.js";
 
 export default class LoadScene extends Phaser.Scene {
     constructor() {
         super({ key: CST.SCENES.LOAD });
+        this.state = {};
     }
     
     init() {
@@ -26,6 +28,6 @@ export default class LoadScene extends Phaser.Scene {
         })
     }
     create() {
-        this.scene.start()
+        this.scene.start(CST.SCENES.MAIN_MENU);
     }
 }
