@@ -64,6 +64,13 @@ create(){
     layer1.setCollisionByProperty({walkable: false});
     layer2.setCollisionByProperty({walkable: false});
 
+    const tile_list = layer1.getTilesWithin();
+    for (var i=0; i<tile_list.length; i++){
+        if (tile_list[i].properties.walkable){
+            this.physics.add.sprite(tile_list[i].x*32, tile_list[i].y*32, 'wood');
+        }
+    }
+
     //player
     player = this.physics.add.sprite(500, 500, 'Steve');
     player.setInteractive();
@@ -73,7 +80,7 @@ create(){
     player.setCollideWorldBounds(true);
 
     //wood
-    map.forEachTile(generateWood(this));
+    //map.forEachTile(generateWood(this));
 
     //create player animations
     this.anims.create({
