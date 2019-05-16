@@ -12,7 +12,7 @@ var cursors;
 var camera;
 
 var gameWidth = 1024;
-var gameHeight = 2048;
+var gameHeight = 1024;
 
 var direction = 'right';
 
