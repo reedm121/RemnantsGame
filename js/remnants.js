@@ -132,10 +132,10 @@ create(){
     })
     //fire animations
     this.anims.create({
-        key: 'fire',
+        key: 'fire_burn',
         frames: this.anims.generateFrameNames('fire', {start: 0, end: 2}),
-        frameRate: 16,
-        repeat: 0
+        frameRate: 8,
+        repeat: -1
     })
 
     cursors = this.input.keyboard.addKeys({
@@ -168,7 +168,7 @@ create(){
     
     //Initialize stats
     food = health = water = 100;
-    wood = 0;
+    wood = 5;
     temp = 60;
     starving = false;
     nearFire = false;
@@ -204,7 +204,6 @@ create(){
         waterText.text = "Water: " + water;
     }});
 
-
     //Collecting things
     this.physics.add.overlap(player, wood_logs, this.collectWood, null, this);
     this.physics.add.overlap(player, shrooms, this.collectShroom, null, this);
@@ -234,9 +233,11 @@ update(){
         player.anims.play(direction, true);
     }
 
+    //fire placement
     if(Phaser.Input.Keyboard.JustDown(BKey)){
         if(wood >= 5){
-            fire = this.physics.add.sprite(Math.floor(player.x+32), Math.floor(player.y), 'wood');
+            fire = this.physics.add.sprite(Math.floor(player.x+32), Math.floor(player.y), 'fire');
+            fire.anims.play('fire_burn', true);
             //var graphics = this.add.graphics({ lineStyle: { width: 2, color: 0xaa0000 }, fillStyle: { color: 0x0000aa } });
             var heatRange = new Phaser.Geom.Rectangle(fire.x-2*32, fire.y-2*32, 4*32, 4*32) //5x5 range
             heatSources.push(heatRange);
