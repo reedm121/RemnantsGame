@@ -26,15 +26,25 @@ var food;
 var health;
 var water;
 var wood;
+var temp;
 var starving;
 
-var foodText, healthText, waterText, woodText, statsContainer;
-var foodTimer, waterTimer, healthTimer;
+var foodText, healthText, waterText, woodText, tempText, statsContainer;
+var foodTimer, waterTimer, healthTimer, coldTimer, fireTimer;
 
 var overlay;
 var wood_logs;
+var shrooms;
+var fire;
+var heatRange;
+var heatSources = [];
+var numFires;
+var nearFire;
+var freezing;
+var fireTimerActive;
 
 var t;
+var BKey;
 
 class RemnantsScene extends Phaser.Scene{
 
@@ -69,14 +79,16 @@ create(){
 
     //wood generation
     const tile_list = layer1.getTilesWithin();
+    wood_logs = this.physics.add.group();
+    shrooms = this.physics.add.group();
     for (var i=0; i<tile_list.length; i++){
         if (tile_list[i].properties.walkable){
             var r = Math.random();
             if (r<=0.03){
-            this.physics.add.sprite(tile_list[i].x*32, tile_list[i].y*32, 'wood');
+                wood_logs.add(this.physics.add.sprite(tile_list[i].x*32, tile_list[i].y*32, 'wood'));
             }
             if (r>0.03 && r<=0.06){
-                this.physics.add.sprite(tile_list[i].x*32, tile_list[i].y*32, 'shroom');
+                shrooms.add(this.physics.add.sprite(tile_list[i].x*32, tile_list[i].y*32, 'shroom'));
             }
         }
     }
@@ -131,6 +143,8 @@ create(){
 
     cursors = this.input.keyboard.createCursorKeys();
 
+    BKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B);
+
     camera = this.cameras.main;
     camera.width = 4*128;
     camera.height = 4*128;
@@ -147,21 +161,29 @@ create(){
     clock = this.time.addEvent({delay: 300000, loop: true, callback: this.changeDay});
     day = true;
 
+    
     //Initialize stats
     food = health = water = 100;
     wood = 0;
+    temp = 60;
     starving = false;
+    nearFire = false;
+    freezing = false;
+    numFires = 0;
+    fireTimerActive = false;
 
     statsContainer = this.add.container(camera.worldView.x, camera.worldView.y);
-    healthText = this.add.text(0, 0, "Health: " + health, {font: "4px pixel_font", fill:"#C11111"});
-    foodText = this.add.text(0, 10, "Food: " + food, {font: "4px pixel_font", fill:"#C47E0D"});
-    waterText = this.add.text(0, 20, "Water: " + water, {font: "4px pixel_font", fill:"#12ABBC"});
-    woodText = this.add.text(0, 30, "Wood: " + wood, {font: "4px pixel_font", fill:"#725001"});
+    healthText = this.add.text(0, 0, "Health: " + health, {font: "4px pixel_font", fill:"#C11111"}).setResolution(5);
+    foodText = this.add.text(0, 10, "Food: " + food, {font: "4px pixel_font", fill:"#C47E0D"}).setResolution(5);
+    waterText = this.add.text(0, 20, "Water: " + water, {font: "4px pixel_font", fill:"#12ABBC"}).setResolution(5);
+    woodText = this.add.text(0, 30, "Wood: " + wood, {font: "4px pixel_font", fill:"#725001"}).setResolution(5);
+    tempText = this.add.text(0, 40, "Temperature: " + temp + "F", {font: "4px pixel_font", fill:"#3331AA"}).setResolution(5);
 
     statsContainer.add(healthText);
     statsContainer.add(foodText);
     statsContainer.add(waterText);
     statsContainer.add(woodText);
+    statsContainer.add(tempText);
     statsContainer.removeInteractive();
 
     //5 minutes to fully empty
@@ -177,6 +199,11 @@ create(){
             water--;
         waterText.text = "Water: " + water;
     }});
+
+
+    //Collecting things
+    this.physics.add.overlap(player, wood_logs, this.collectWood, null, this);
+    this.physics.add.overlap(player, shrooms, this.collectShroom, null, this);
 }
 
 update(){
@@ -203,6 +230,36 @@ update(){
         player.anims.play(direction, true);
     }
 
+    if(Phaser.Input.Keyboard.JustDown(BKey)){
+        if(wood >= 5){
+            fire = this.physics.add.sprite(Math.floor(player.x+32), Math.floor(player.y), 'wood');
+            //var graphics = this.add.graphics({ lineStyle: { width: 2, color: 0xaa0000 }, fillStyle: { color: 0x0000aa } });
+            var heatRange = new Phaser.Geom.Rectangle(fire.x-2*32, fire.y-2*32, 4*32, 4*32) //5x5 range
+            heatSources.push(heatRange);
+            numFires++;
+            //graphics.strokeRectShape(heatRange);
+            wood -= 5;
+            woodText.text = "Wood: " + wood;
+        }
+        else{
+            var helpText = this.add.text(camera.worldView.x, camera.worldView.y+60, "Need more wood to build fire!", {font: "3px pixel_font"}).setResolution(5);
+            this.time.addEvent({delay: 2000, callback: () => {
+                helpText.destroy();
+            }});
+        }
+        
+    }
+
+    for(var i = 0; i < numFires; i++){
+        if(heatSources[i].contains(player.x, player.y)){
+            nearFire = true;
+            break;
+        }
+        else{
+            nearFire = false;
+        }
+    }
+
     //Day/night cycle
     if(day){
         alpha = clock.getProgress();
@@ -215,6 +272,42 @@ update(){
     overlay.setPosition(player.body.x, player.body.y);
     statsContainer.setPosition(camera.worldView.x, camera.worldView.y);
 
+    //Temperature
+    if(!nearFire){
+        if(day)
+            temp = Math.ceil(60 - 40*clock.getProgress());
+        else
+            temp = Math.ceil(20 + 40*clock.getProgress());
+        if(fireTimerActive){
+            fireTimer.remove();
+            fireTimerActive = false;
+        }
+    }
+    else if(!fireTimerActive){
+        fireTimerActive = true;
+        fireTimer = this.time.addEvent({delay: 2000, loop: true, callback: () => {
+            if(temp > 60)
+                temp++;
+        }});
+    }
+        
+    tempText.text = "Temperature: " + temp + "F";
+
+    if(temp < 32 && !freezing){
+        freezing = true;
+        player.setTint(0x2ba4bf);
+        coldTimer = this.time.addEvent({delay: 1000, loop: true, callback: () => {
+            health--;
+            healthText.text = "Health: " + health;
+        }})
+    }
+    else if(freezing && temp >= 32){
+        freezing = false;
+        player.clearTint();
+        coldTimer.remove();
+    }
+
+    //Food/water
     if((food === 0 || water === 0) && !starving){
         starving = true;
         healthTimer = this.time.addEvent({delay: 1000, loop: true, callback: () => {
@@ -237,6 +330,20 @@ update(){
 
 changeDay(){
     day = !day;
+}
+
+collectWood(player, log){
+    log.disableBody(true, true);
+    wood++;
+    woodText.text = "Wood: " + wood;
+}
+
+collectShroom(player, shroom){
+    shroom.disableBody(true, true);
+    food += 5;
+    if(food > 100)
+        food = 100;
+    foodText.text = "Food: " + food;
 }
 
 }
