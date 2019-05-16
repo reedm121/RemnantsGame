@@ -12,7 +12,7 @@ var cursors;
 var camera;
 
 var gameWidth = 1024;
-var gameHeight = 2048;
+var gameHeight = 1024;
 
 var direction = 'right';
 
@@ -237,7 +237,10 @@ update(){
     if(Phaser.Input.Keyboard.JustDown(BKey)){
         if(wood >= 5){
             fire = this.physics.add.sprite(Math.floor(player.x+32), Math.floor(player.y), 'fire');
+<<<<<<< HEAD
             fire.anims.play('fire_burn', true);
+=======
+>>>>>>> f1c2b9995672422dd16f160f7e3dda0fa52a7c55
             //var graphics = this.add.graphics({ lineStyle: { width: 2, color: 0xaa0000 }, fillStyle: { color: 0x0000aa } });
             var heatRange = new Phaser.Geom.Rectangle(fire.x-2*32, fire.y-2*32, 4*32, 4*32) //5x5 range
             heatSources.push(heatRange);
@@ -291,7 +294,7 @@ update(){
     else if(!fireTimerActive){
         fireTimerActive = true;
         fireTimer = this.time.addEvent({delay: 2000, loop: true, callback: () => {
-            if(temp > 60)
+            if(temp < 60)
                 temp++;
         }});
     }
