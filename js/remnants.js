@@ -68,7 +68,10 @@ create(){
     const tile_list = layer1.getTilesWithin();
     for (var i=0; i<tile_list.length; i++){
         if (tile_list[i].properties.walkable){
+            var r = Math.random();
+            if (r<=0.1){
             this.physics.add.sprite(tile_list[i].x*32, tile_list[i].y*32, 'wood');
+            }
         }
     }
 
