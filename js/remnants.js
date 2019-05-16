@@ -41,6 +41,7 @@ class RemnantsScene extends Phaser.Scene{
 preload(){
     //load spritesheets
     this.load.spritesheet('Steve', 'assets/sprites/steve_spritesheet.png', {frameWidth: 18, frameHeight: 24}); //Steve is what im calling the player
+    this.load.spritesheet('fire', 'assets/sprites/fire.png', {frameWidth: 11, frameHeight: 16});
     
     //load images
     this.load.image('wood', 'assets/sprites/wood_log.png');
@@ -81,7 +82,6 @@ create(){
         }
     }
 
-
     //player
     player = this.physics.add.sprite(500, 500, 'Steve');
     player.setInteractive();
@@ -100,24 +100,28 @@ create(){
         frameRate: 16,
         repeat: 0
     })
-
     this.anims.create({
         key: 'right-idle',
         frames: this.anims.generateFrameNumbers('Steve', { start: 4, end: 5 }),
         frameRate: 16,
         repeat: 0
     })
-
     this.anims.create({
         key: 'left',
         frames: this.anims.generateFrameNumbers('Steve', { start: 6, end: 9 }),
         frameRate: 16,
         repeat: 0
     })
-
     this.anims.create({
         key: 'left-idle',
         frames: this.anims.generateFrameNumbers('Steve', { start: 10, end: 11 }),
+        frameRate: 16,
+        repeat: 0
+    })
+    //fire animations
+    this.anims.create({
+        key: 'fire',
+        frames: this.anims.generateFrameNames('fire', {start: 0, end: 2}),
         frameRate: 16,
         repeat: 0
     })
