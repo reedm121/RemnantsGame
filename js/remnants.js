@@ -64,6 +64,7 @@ create(){
     layer1.setCollisionByProperty({walkable: false});
     layer2.setCollisionByProperty({walkable: false});
 
+    //wood generation
     const tile_list = layer1.getTilesWithin();
     for (var i=0; i<tile_list.length; i++){
         if (tile_list[i].properties.walkable){
