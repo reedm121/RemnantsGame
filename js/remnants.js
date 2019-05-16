@@ -75,20 +75,8 @@ create(){
     player.setCollideWorldBounds(true);
 
     //wood
-<<<<<<< HEAD
     this.generateWood();
     
-=======
-    wood_logs = []
-    var t = map.getTilesWithinWorldXY(0, 0, this.gameWidth, this.gameHeight, {walkable: true});
-    t.forEach(element => {
-        var r = Math.random();
-        if (r<=0){
-            this.physics.add.staticSprite(element.x, element.y, )
-        }
-    });
-    this.physics.add.staticSprite()
->>>>>>> 48a1c3b2881b4a77310acd6f7cd40ca574cf822c
 
     //create player animations
     this.anims.create({
