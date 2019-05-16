@@ -11,14 +11,15 @@ var player;
 var cursors;
 var camera;
 
-var gameWidth = 4*128;
-var gameHeight = 4*128;
+var gameWidth = 1024;
+var gameHeight = 2048;
 
 var direction = 'right';
 
 var fadetime;
 var clock;
 var day;
+var overlay;
 
 var overlay;
 
@@ -122,8 +123,8 @@ create(){
     overlay = this.add.image(camera.x, camera.y, 'overlay').disableInteractive();
 
 
-    //delay 300000
-    clock = this.time.addEvent({delay: 1000, loop: true, callback: this.changeDay});
+    //delay 300000, only 1000 for testing
+    clock = this.time.addEvent({delay: 300000, loop: true, callback: this.changeDay});
     day = true;
 }
 
@@ -157,6 +158,7 @@ update(){
     else{
         overlay.alpha = clock.getProgress();
     }
+    overlay.setPosition(player.body.x, player.body.y);
 
     
 
