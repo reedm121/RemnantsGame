@@ -50,7 +50,6 @@ preload(){
 
     //tilemaps
     this.load.tilemapTiledJSON('map', 'assets/maps/RemnantsMap.json');
-
 };
 
 create(){
@@ -65,7 +64,6 @@ create(){
     layer1.setCollisionByProperty({walkable: false});
     layer2.setCollisionByProperty({walkable: false});
 
-
     //player
     player = this.physics.add.sprite(500, 500, 'Steve');
     player.setInteractive();
@@ -75,8 +73,7 @@ create(){
     player.setCollideWorldBounds(true);
 
     //wood
-    this.generateWood();
-    
+    map.forEachTile(generateWood(this));
 
     //create player animations
     this.anims.create({
@@ -127,7 +124,6 @@ create(){
 
     //add overlay
     overlay = this.add.image(camera.x, camera.y, 'overlay').disableInteractive();
-
 
     //delay 300000 (5 minutes), only 1000 for testing 
     clock = this.time.addEvent({delay: 300000, loop: true, callback: this.changeDay});
@@ -221,17 +217,6 @@ changeDay(){
     day = !day;
 }
 
-generateWood(){
-    t = map.getTilesWithinWorldXY(0, 0, this.gameWidth, this.gameHeight, { walkable: true });
-    t.forEach(element => {
-        var r = Math.random();
-        if (r <= 0) {
-            this.physics.add.staticSprite(element.x, element.y, 'wood');
-        }
-    });
-    this.physics.add.staticSprite()
-}
-
 }
 
 window.onload = function(){
@@ -252,6 +237,10 @@ window.onload = function(){
         scene: new RemnantsScene()
     };
     game = new Phaser.Game(config);
+}
+
+function generateWood(scene) {
+    scene.physics.add.staticSprite(this.x, this.y, scene.textures.get('wood'));
 }
 
 
