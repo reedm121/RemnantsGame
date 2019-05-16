@@ -151,14 +151,14 @@ create(){
     statsContainer.removeInteractive();
 
     //5 minutes to fully empty
-    foodTimer = this.time.addEvent({delay: 30000, loop: true, callback: function(){
+    foodTimer = this.time.addEvent({delay: 30000, loop: true, callback: () => {
         if(food > 0)
             food--;
         foodText.text = "Food: " + food;
     }});
 
     //2 minutes 30 seconds to fully empty
-    waterTimer = this.time.addEvent({delay: 150, loop: true, callback: function(){
+    waterTimer = this.time.addEvent({delay: 1, loop: true, callback: () => {
         if(water > 0)
             water--;
         waterText.text = "Water: " + water;
@@ -203,14 +203,18 @@ update(){
 
     if((food === 0 || water === 0) && !starving){
         starving = true;
-        healthTimer = this.time.addEvent({delay: 1000, loop: true, callback: function(){
+        healthTimer = this.time.addEvent({delay: 1000, loop: true, callback: () => {
             if(health > 0)
-                health --;
+                health--;
             healthText.text = "Health: " + health;
+            player.setTint(0xff0000);
+            this.time.addEvent({delay: 500, callback: () => {
+                player.clearTint();
+            }})
         }});
     }
 
-    if(starving && !(food === 0 && water === 0)){
+    if(starving && food > 0 && water > 0){
         healthTimer.remove();
         starving = false;
     }
