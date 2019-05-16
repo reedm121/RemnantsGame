@@ -32,6 +32,8 @@ var foodTimer, waterTimer;
 
 var overlay;
 
+var t;
+
 class RemnantsScene extends Phaser.Scene{
 
 preload(){
@@ -71,15 +73,8 @@ create(){
     player.setCollideWorldBounds(true);
 
     //wood
-    wood_logs = []
-    t = map.getTilesWithinWorldXY(0, 0, this.gameWidth, this.gameHeight, {walkable: true});
-    t.array.forEach(element => {
-        var r = Math.random();
-        if (r<=0){
-            this.physics.add.staticSprite(element.x, element.y, )
-        }
-    });
-    this.physics.add.staticSprite()
+    this.generateWood();
+    
 
     //create player animations
     this.anims.create({
@@ -207,6 +202,17 @@ update(){
 
 changeDay(){
     day = !day;
+}
+
+generateWood(){
+    t = map.getTilesWithinWorldXY(0, 0, this.gameWidth, this.gameHeight, { walkable: true });
+    t.forEach(element => {
+        var r = Math.random();
+        if (r <= 0) {
+            this.physics.add.staticSprite(element.x, element.y, 'wood');
+        }
+    });
+    this.physics.add.staticSprite()
 }
 
 }
