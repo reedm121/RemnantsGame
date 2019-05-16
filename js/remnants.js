@@ -247,6 +247,7 @@ update(){
             woodText.text = "Wood: " + wood;
         }
         else{
+            //text display
             var helpText = this.add.text(camera.worldView.x, camera.worldView.y+60, "Need more wood to build fire!", {font: "3px pixel_font"}).setResolution(5);
             this.time.addEvent({delay: 2000, callback: () => {
                 helpText.destroy();
@@ -371,10 +372,6 @@ window.onload = function(){
         scene: new RemnantsScene()
     };
     game = new Phaser.Game(config);
-}
-
-function generateWood(scene) {
-    scene.physics.add.staticSprite(this.x, this.y, scene.textures.get('wood'));
 }
 
 
