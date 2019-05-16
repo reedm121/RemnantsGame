@@ -41,7 +41,10 @@ class RemnantsScene extends Phaser.Scene{
 preload(){
     //load spritesheets
     this.load.spritesheet('Steve', 'assets/sprites/steve_spritesheet.png', {frameWidth: 18, frameHeight: 24}); //Steve is what im calling the player
+    
+    //load images
     this.load.image('wood', 'assets/sprites/wood_log.png');
+    this.load.image('shroom', 'assets/sprites/shroom.png');
 
     //load tileset img
     this.load.image('remnants_Tileset', 'assets/maps/remnants_Tileset.png');
@@ -69,11 +72,15 @@ create(){
     for (var i=0; i<tile_list.length; i++){
         if (tile_list[i].properties.walkable){
             var r = Math.random();
-            if (r<=0.1){
+            if (r<=0.03){
             this.physics.add.sprite(tile_list[i].x*32, tile_list[i].y*32, 'wood');
+            }
+            if (r>0.03 && r<=0.06){
+                this.physics.add.sprite(tile_list[i].x*32, tile_list[i].y*32, 'shroom');
             }
         }
     }
+
 
     //player
     player = this.physics.add.sprite(500, 500, 'Steve');
