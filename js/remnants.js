@@ -189,7 +189,6 @@ update(){
         player.anims.play(direction, true);
     }
 
-<<<<<<< HEAD
     //Day/night cycle
     if(day){
         alpha = clock.getProgress();
@@ -198,13 +197,6 @@ update(){
     else{
         alpha = 1-clock.getProgress();
         overlay.alpha = (alpha <= 0.5) ? alpha : 0.5;
-=======
-
-    if(day)
-        overlay.alpha = 1-clock.getProgress();
-    else{
-        overlay.alpha = clock.getProgress();
->>>>>>> 4edece7210a579f1b1d606ed6b213f1b4f2df1a3
     }
     overlay.setPosition(player.body.x, player.body.y);
     statsContainer.setPosition(camera.worldView.x, camera.worldView.y);
