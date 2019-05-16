@@ -165,7 +165,7 @@ create(){
     }});
 
     //2 minutes 30 seconds to fully empty
-    waterTimer = this.time.addEvent({delay: 1, loop: true, callback: () => {
+    waterTimer = this.time.addEvent({delay: 15000, loop: true, callback: () => {
         if(water > 0)
             water--;
         waterText.text = "Water: " + water;
