@@ -209,15 +209,13 @@ update(){
     if((food === 0 || water === 0) && !starving){
         starving = true;
         healthTimer = this.time.addEvent({delay: 1000, loop: true, callback: function(){
-            if(health > 1)
-                health -= 2;
-            else if(health === 1)
-                health = 0
+            if(health > 0)
+                health --;
             healthText.text = "Health: " + health;
         }});
     }
 
-    if(starving && !(food === 0 || water === 0)){
+    if(starving && !(food === 0 && water === 0)){
         healthTimer.remove();
         starving = false;
     }
