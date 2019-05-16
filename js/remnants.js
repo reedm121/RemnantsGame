@@ -20,12 +20,14 @@ var fadetime;
 var clock;
 var day;
 
+var overlay;
+
 class RemnantsScene extends Phaser.Scene{
 
 preload(){
-
     //load spritesheets
     this.load.spritesheet('Steve', 'assets/sprites/steve_spritesheet.png', {frameWidth: 18, frameHeight: 24}); //Steve is what im calling the player
+    this.load.image('wood', 'assets/sprites/wood_log.png');
 
     //load tileset img
     this.load.image('remnants_Tileset', 'assets/maps/remnants_Tileset.png');
@@ -40,8 +42,6 @@ preload(){
 create(){
     //create tilemap object
     map = this.make.tilemap({key: 'map'});
-    //map.createStaticLayer('Tile Layer 1', 'map');
-    //map.createStaticLayer('Tile Layer 2', 'map');
 
     //create tileset
     tiles = map.addTilesetImage('remnants_Tileset', 'remnants_Tileset');
@@ -59,6 +59,17 @@ create(){
     this.physics.add.collider(player, layer1);
     this.physics.add.collider(player, layer2);
     player.setCollideWorldBounds(true);
+
+    //wood
+    wood_logs = []
+    t = map.getTilesWithinWorldXY(0, 0, this.gameWidth, this.gameHeight, {walkable: true});
+    t.array.forEach(element => {
+        var r = Math.random();
+        if (r<=0){
+            this.physics.add.staticSprite(element.x, element.y, )
+        }
+    });
+    this.physics.add.staticSprite()
 
     //create player animations
     this.anims.create({
@@ -108,8 +119,8 @@ create(){
     camera.setZoom(4);
 
     //add overlay
-    overlay = this.add.image(camera.x, camera.y, 'overlay');
-    overlay.alpha = 0.5;
+    overlay = this.add.image(camera.x, camera.y, 'overlay').disableInteractive();
+
 
     //delay 300000
     clock = this.time.addEvent({delay: 1000, loop: true, callback: this.changeDay});
@@ -139,13 +150,12 @@ update(){
         player.body.setVelocityY(35);
         player.anims.play(direction, true);
     }
-    //player.body.velocity.normalize();
 
 
     if(day)
-        camera.alpha = 1-clock.getProgress();
+        overlay.alpha = 1-clock.getProgress();
     else{
-        camera.alpha = clock.getProgress();
+        overlay.alpha = clock.getProgress();
     }
 
     
