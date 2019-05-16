@@ -26,11 +26,13 @@ var food;
 var health;
 var water;
 var wood;
+var starving;
 
 var foodText, healthText, waterText, woodText, statsContainer;
-var foodTimer, waterTimer;
+var foodTimer, waterTimer, healthTimer;
 
 var overlay;
+var wood_logs;
 
 class RemnantsScene extends Phaser.Scene{
 
@@ -72,8 +74,8 @@ create(){
 
     //wood
     wood_logs = []
-    t = map.getTilesWithinWorldXY(0, 0, this.gameWidth, this.gameHeight, {walkable: true});
-    t.array.forEach(element => {
+    var t = map.getTilesWithinWorldXY(0, 0, this.gameWidth, this.gameHeight, {walkable: true});
+    t.forEach(element => {
         var r = Math.random();
         if (r<=0){
             this.physics.add.staticSprite(element.x, element.y, )
@@ -139,8 +141,9 @@ create(){
     //Initialize stats
     food = health = water = 100;
     wood = 0;
+    starving = false;
 
-    statsContainer = this.add.container(camera.x, camera.y);
+    statsContainer = this.add.container(camera.worldView.x, camera.worldView.y);
     healthText = this.add.text(0, 0, "Health: " + health, {font: "4px pixel_font", fill:"#C11111"});
     foodText = this.add.text(0, 10, "Food: " + food, {font: "4px pixel_font", fill:"#C47E0D"});
     waterText = this.add.text(0, 20, "Water: " + water, {font: "4px pixel_font", fill:"#12ABBC"});
@@ -154,13 +157,15 @@ create(){
 
     //5 minutes to fully empty
     foodTimer = this.time.addEvent({delay: 30000, loop: true, callback: function(){
-        food--;
+        if(food > 0)
+            food--;
         foodText.text = "Food: " + food;
     }});
 
     //2 minutes 30 seconds to fully empty
-    waterTimer = this.time.addEvent({delay: 15000, loop: true, callback: function(){
-        water--;
+    waterTimer = this.time.addEvent({delay: 150, loop: true, callback: function(){
+        if(water > 0)
+            water--;
         waterText.text = "Water: " + water;
     }});
 }
@@ -200,9 +205,23 @@ update(){
     }
     overlay.setPosition(player.body.x, player.body.y);
     statsContainer.setPosition(camera.worldView.x, camera.worldView.y);
-    
-    
 
+    if((food === 0 || water === 0) && !starving){
+        starving = true;
+        healthTimer = this.time.addEvent({delay: 1000, loop: true, callback: function(){
+            if(health > 1)
+                health -= 2;
+            else if(health === 1)
+                health = 0
+            healthText.text = "Health: " + health;
+        }});
+    }
+
+    if(starving && !(food === 0 || water === 0)){
+        healthTimer.remove();
+        starving = false;
+    }
+    
 }
 
 changeDay(){
