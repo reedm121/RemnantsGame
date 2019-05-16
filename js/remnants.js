@@ -20,6 +20,15 @@ var fadetime;
 var clock;
 var day;
 var overlay;
+var alpha;
+
+var food;
+var health;
+var water;
+var wood;
+
+var foodText, healthText, waterText, woodText, statsContainer;
+var foodTimer, waterTimer;
 
 class RemnantsScene extends Phaser.Scene{
 
@@ -112,9 +121,37 @@ create(){
     overlay = this.add.image(camera.x, camera.y, 'overlay');
     overlay.alpha = 0.5;
 
-    //delay 300000, only 1000 for testing
+    //delay 300000 (5 minutes), only 1000 for testing 
     clock = this.time.addEvent({delay: 300000, loop: true, callback: this.changeDay});
     day = true;
+
+    //Initialize stats
+    food = health = water = 100;
+    wood = 0;
+
+    statsContainer = this.add.container(camera.x, camera.y);
+    healthText = this.add.text(0, 0, "Health: " + health, {font: "4px pixel_font", fill:"#C11111"});
+    foodText = this.add.text(0, 10, "Food: " + food, {font: "4px pixel_font", fill:"#C47E0D"});
+    waterText = this.add.text(0, 20, "Water: " + water, {font: "4px pixel_font", fill:"#12ABBC"});
+    woodText = this.add.text(0, 30, "Wood: " + wood, {font: "4px pixel_font", fill:"#725001"});
+
+    statsContainer.add(healthText);
+    statsContainer.add(foodText);
+    statsContainer.add(waterText);
+    statsContainer.add(woodText);
+    statsContainer.removeInteractive();
+
+    //5 minutes to fully empty
+    foodTimer = this.time.addEvent({delay: 30000, loop: true, callback: function(){
+        food--;
+        foodText.text = "Food: " + food;
+    }});
+
+    //2 minutes 30 seconds to fully empty
+    waterTimer = this.time.addEvent({delay: 15000, loop: true, callback: function(){
+        water--;
+        waterText.text = "Water: " + water;
+    }});
 }
 
 update(){
@@ -142,17 +179,18 @@ update(){
     }
     //player.body.velocity.normalize();
 
-
+    //Day/night cycle
     if(day){
-        var alpha = clock.getProgress();
+        alpha = clock.getProgress();
         overlay.alpha = (alpha <= 0.5) ? alpha : 0.5;
     }
     else{
-        var alpha = 1-clock.getProgress();
+        alpha = 1-clock.getProgress();
         overlay.alpha = (alpha <= 0.5) ? alpha : 0.5;
     }
     overlay.setPosition(player.body.x, player.body.y);
-
+    statsContainer.setPosition(camera.worldView.x, camera.worldView.y);
+    
     
 
 }
