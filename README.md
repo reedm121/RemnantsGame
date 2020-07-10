@@ -1,4 +1,5 @@
 # RemnantsGame
+Game Programming course project, 2019
 
 ## Description
 A web survival game made with Javascript and Phaser 3 in order to learn game development.
@@ -8,7 +9,7 @@ A web survival game made with Javascript and Phaser 3 in order to learn game dev
 - Matthew Davidson
 
 ## Gameplay
-The game is a simple survival game. You must gather enough food and water to survive, whcile also making sure to build a fire to last through the cold night.
+The game is a simple survival game. You must gather enough food and water to survive, while also making sure to build a fire to last through the cold night.
 
 ## Assets
 All assets (art and sound) were done by Reed Gantz.
