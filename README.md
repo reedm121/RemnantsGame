@@ -7,7 +7,7 @@ A version of the game can be found [here](https://remnantsgame.firebaseapp.com/R
 A web survival game made with Javascript and Phaser 3 in order to learn game development.
 
 ## Members
-- Reed Gantz
+- Reed Gantz [@reedm121](https://github.com/reedm121)
 - Matthew Davidson
 
 ## Gameplay
